@@ -1,5 +1,5 @@
 import { sendProxy, defineEventHandler } from 'h3'
-import { useRuntimeConfig } from '#app'
+import { useRuntimeConfig } from '#nitro'
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
