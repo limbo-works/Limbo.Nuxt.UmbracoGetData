@@ -1,5 +1,5 @@
 import { sendProxy } from 'h3'
-
+import { useRuntimeConfig } from '#app'
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
