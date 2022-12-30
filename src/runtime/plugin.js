@@ -1,4 +1,4 @@
-import { defineNuxtPlugin, useRuntimeConfig, useRequestHeaders } from '#app'
+import { defineNuxtPlugin, useRuntimeConfig, useRequestHeaders, setResponseStatus } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const UMBRACO_GET_DATA_ENDPOINT = 'api/data'
