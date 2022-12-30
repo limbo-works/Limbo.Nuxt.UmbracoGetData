@@ -1,4 +1,4 @@
-import { sendProxy } from 'h3'
+import { sendProxy, defineEventHandler } from 'h3'
 import { useRuntimeConfig } from '#app'
 const config = useRuntimeConfig()
 
