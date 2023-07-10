@@ -7,17 +7,17 @@ export default defineNuxtPlugin((nuxtApp) => {
 	//   const NOT_FOUND_STATUS_CODE = 404
 	//   const I_AM_A_TEAPOT_STATUS_CODE = 418
 	//   const INTERNAL_SERVER_ERROR_STATUS_CODE = 500
-	
+
 	const fetchData = async (config = {}) => {
 		const environment = useRuntimeConfig();
-		
+
 		/**
 		* host handling start
 		*
 		*/
 		const headers = useRequestHeaders();
 		let appHost = '';
-		
+
 		if (process.server) {
 			appHost = headers.host;
 		}
@@ -26,17 +26,17 @@ export default defineNuxtPlugin((nuxtApp) => {
 			const { hostname } = new URL(window.location.href);
 			appHost = hostname;
 		}
-		
+
 		const isLocalHost =
 			appHost.includes('localhost') ||
 			/\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}/.test(appHost);
-		
+
 		appHost = isLocalHost ? environment.public.appHost : appHost;
-		
+
 		/**
 		* host handling end
 		*/
-		
+
 		const urlSearchParams = new URLSearchParams({
 			appHost,
 			navContext: process.server,
@@ -44,25 +44,32 @@ export default defineNuxtPlugin((nuxtApp) => {
 			url: config.route,
 			...config.params
 		});
-		
+
 		const data = await $fetch(
-			`/${UMBRACO_GET_DATA_ENDPOINT}?${urlSearchParams.toString()}`
+			`/${UMBRACO_GET_DATA_ENDPOINT}?${urlSearchParams.toString()}`,
+      {
+        ...config?.fetchOptions || {},
+        headers: {
+          cookie: headers.cookie,
+          ...config?.fetchOptions?.headers || {},
+        },
+      },
 		);
-			
+
 		return data;
-	}	
-		
+	}
+
 	const processData = (data = {}) => {
 		if (data.meta?.code) {
 			// Overwrite the response code (does nothing client side)
 			setResponseStatus(data.meta.code);
-			
+
 			// Special handlings
 			switch (data.meta.code) {
 				case 301:
 					if (nuxtApp.ssrContext) {
 						const { res } = nuxtApp.ssrContext;
-						
+
 						if (data.meta.redirect) {
 							res.writeHead(301, {
 								Location: data.meta.redirect
@@ -73,15 +80,15 @@ export default defineNuxtPlugin((nuxtApp) => {
 						window.location.replace(data.meta.redirect);
 					}
 					break;
-				
+
 				default:
 					break;
 			}
 		}
-		
+
 		return data;
 	}
-	
+
 	// Make an $umbracoClient object available with our methods
 	const umbracoClient = {
 		fetchData,
