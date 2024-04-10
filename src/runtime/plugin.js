@@ -37,6 +37,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 		* host handling end
 		*/
 
+    config.route = config.route.includes('%') ? decodeURI(config.route): config.route;
+
 		const urlSearchParams = new URLSearchParams({
 			appHost,
 			navContext: process.server,
