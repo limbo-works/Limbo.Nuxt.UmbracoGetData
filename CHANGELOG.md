@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v0.9.0...v0.9.1) (2024-04-15)
+
+
+### Bug Fixes
+
+* Always decode ([c94a395](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/c94a395fbc2357f259a4343807b98591201b12d0))
+
 ## [0.9.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/0.8.0...v0.9.0) (2024-04-10)
 
 
