@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v0.9.1...v1.0.0) (2024-06-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* always use appHost if available
+
+### Bug Fixes
+
+* always use appHost if available ([c78cc43](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/c78cc432bd45a3637936215afbc58471efd6bfa0))
+
 ## [0.9.1](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v0.9.0...v0.9.1) (2024-04-15)
 
 
