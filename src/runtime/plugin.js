@@ -27,11 +27,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 			appHost = hostname;
 		}
 
-		const isLocalHost =
-			appHost.includes('localhost') ||
-			/\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}/.test(appHost);
-
-		appHost = isLocalHost ? environment.public.appHost : appHost;
+		appHost = environment.public.appHost || appHost;
 
 		/**
 		* host handling end
