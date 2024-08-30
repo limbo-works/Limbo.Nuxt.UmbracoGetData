@@ -10,5 +10,5 @@ module.exports = {
 		'no-unused-vars': ['warn'],
 		'no-undef': 0,
 		"@typescript-eslint/no-unused-vars": ["off"]
-	}	
+	}
 }
