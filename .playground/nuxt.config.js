@@ -6,8 +6,13 @@ export default defineNuxtConfig({
    MyModule
  ],
 
- myModule: {
-   addPlugin: true
+ nuxtUmbraco: {
+   addApiProxy: true,
+   addPlugin: true,
+   fetchOptions: {
+    timeout: 5000,
+    retry: 2
+   },
  },
 
  runtimeConfig: {
