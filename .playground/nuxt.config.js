@@ -12,8 +12,8 @@ export default defineNuxtConfig({
 
  runtimeConfig: {
       public: {
-          apiDomain: 'https://10211sv-be.liveserver.nu/',
-          appHost: '10211sv-fe.liveserver.nu',
+          apiDomain: 'https://10175ni-be.liveserver.nu/',
+          appHost: '10175ni-fe.liveserver.nu',
       },
   },
 
