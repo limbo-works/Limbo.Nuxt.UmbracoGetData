@@ -19,14 +19,15 @@ export default defineEventHandler(async (event) => {
 	try {
 		const response = await $fetch.raw(target.toString(), {
 			method,
+			body,
+      ...fetchOptions,
 
-			headers: {
+      headers: {
 				'content-type': reqHeaders['content-type'] || 'application/json',
         cookie: reqHeaders.cookie,
         'X-Api-Key': config.apiKey,
+        ...(fetchOptions?.headers || {}),
 			},
-      ...fetchOptions,
-			body,
 		});
 
 		for (const header of ['set-cookie', 'cache-control']) {
