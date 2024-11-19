@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.1.1...v1.1.2) (2024-11-19)
+
+
+### Bug Fixes
+
+* remove @nuxtjs/eslint-config-typescript ([2eb96ec](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/2eb96ec402c5e35415a0ce298257f4591654d377))
+
 ## [1.1.1](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.1.0...v1.1.1) (2024-11-19)
 
 
