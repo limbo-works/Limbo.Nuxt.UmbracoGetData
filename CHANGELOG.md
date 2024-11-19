@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.0.0...v1.1.0) (2024-11-19)
+
+
+### Features
+
+* add fetchoptions ([71adb9e](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/71adb9e9fe78109e299b6a068a1429526d69ee07))
+
+
+### Bug Fixes
+
+* changed playground test to one with gzip ([99531c0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/99531c0452070dd6517d4fedf3c11286086901db))
+* reordered fethOptions to allow overwriting headers as well ([8193ff3](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/8193ff33d6494158900704255c8ec8e6152aabcc))
+
 ## [1.0.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v0.9.1...v1.0.0) (2024-06-12)
 
 
