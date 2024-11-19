@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.1.0...v1.1.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* update yarn lock ([7646dbb](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/7646dbb443487ae67ab63b1516f9404a34e6b3bb))
+
 ## [1.1.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.0.0...v1.1.0) (2024-11-19)
 
 
