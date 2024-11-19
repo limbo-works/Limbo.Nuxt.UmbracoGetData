@@ -1,15 +1,48 @@
-import { sendProxy, defineEventHandler } from 'h3';
+import { defineEventHandler, readBody, appendHeader, createError } from 'h3';
 import { useRuntimeConfig } from '#nitro';
 const config = useRuntimeConfig();
 
 export default defineEventHandler(async (event) => {
-  const { headers: reqHeaders = {} } = event.node.req || {};
+  const { headers: reqHeaders = {}, method, url } = event.node.req || {};
 	const target = new URL(
-		event.node.req.url.replace(/^\/api\/data/, config.getdataEndpointUrl || '/umbraco/api/spa/getdata/'),
+		url.replace(/^\/api\/data/, config.getdataEndpointUrl || '/umbraco/api/spa/getdata/'),
 		config.public.apiDomain
 	);
 
-	const headers = { 'X-Api-Key': config.apiKey, cookie: reqHeaders.cookie };
-	const data = await sendProxy(event, target.toString(), { headers, sendStream: false });
-	return data;
+
+	const body =
+		method !== 'GET' && method !== 'HEAD'
+			? await readBody(event)
+			: undefined;
+
+      const fetchOptions = config.nuxtUmbraco?.fetchOptions || {};
+	try {
+		const response = await $fetch.raw(target.toString(), {
+			method,
+			body,
+      ...fetchOptions,
+
+      headers: {
+				'content-type': reqHeaders['content-type'] || 'application/json',
+        cookie: reqHeaders.cookie,
+        'X-Api-Key': config.apiKey,
+        ...(fetchOptions?.headers || {}),
+			},
+		});
+
+		for (const header of ['set-cookie', 'cache-control']) {
+			if (response.headers.has(header)) {
+				appendHeader(event, header, response.headers.get(header));
+			}
+		}
+
+		return response._data;
+	} catch (error) {
+		return createError({
+			statusCode: error.response.status,
+			statusMessage: error.message,
+			data: error.data,
+		});
+	}
+
 });

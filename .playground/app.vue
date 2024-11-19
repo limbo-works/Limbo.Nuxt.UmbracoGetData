@@ -1,6 +1,7 @@
 <template>
   <div>
     Nuxt module playground!
+    {{ data }}
   </div>
 </template>
 

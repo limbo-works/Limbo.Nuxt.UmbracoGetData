@@ -18,11 +18,11 @@ export default defineNuxtPlugin((nuxtApp) => {
 		const headers = useRequestHeaders();
 		let appHost = '';
 
-		if (process.server) {
+		if (import.meta.server) {
 			appHost = headers.host;
 		}
 
-		if (process.client) {
+		if (import.meta.client) {
 			const { hostname } = new URL(window.location.href);
 			appHost = hostname;
 		}
@@ -35,7 +35,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 		const urlSearchParams = new URLSearchParams({
 			appHost,
-			navContext: process.server,
+			navContext: import.meta.server,
 			navLevels: 2,
 			url: decodeURI(config.route),
 			...config.params
