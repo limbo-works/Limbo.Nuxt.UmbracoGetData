@@ -6,15 +6,15 @@
 </template>
 
 <script setup>
-import { useNuxtApp } from '#app';
+import { useNuxtApp, createError } from '#app';
 const { $umbracoClient } = useNuxtApp();
 
 let data = await $umbracoClient.fetchData({
 	params: {
 		cache: false,
-		parts: ['content'],
+		parts: ['contenat'],
 	},
-	route: '/',
+	route: '/sdjsdjkdshjk',
   cachingOptions: {
     maxAge: 60,
     name: 'getData',
@@ -24,6 +24,14 @@ let data = await $umbracoClient.fetchData({
     },
   },
 });
+
+if (!data || data.meta.code === 404) {
+  throw createError({
+		statusCode: 404,
+		statusMessage: 'Page Not Found',
+		fatal: true,
+	});
+}
 
 !data && console.log('DATA:', data);
 </script>

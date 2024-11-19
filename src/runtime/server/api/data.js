@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
 		return response._data;
 	} catch (error) {
 		return createError({
-			statusCode: error.response.status,
+			statusCode: error.response?.status || 500,
 			statusMessage: error.message,
 			data: error.data,
 		});
