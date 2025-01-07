@@ -1,8 +1,8 @@
 import { defineEventHandler, readBody, appendHeader, createError } from 'h3';
 import { useRuntimeConfig } from '#nitro';
-const config = useRuntimeConfig();
 
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig();
   const { headers: reqHeaders = {}, method, url } = event.node.req || {};
 	const target = new URL(
 		url.replace(/^\/api\/data/, config.getdataEndpointUrl || '/umbraco/api/spa/getdata/'),

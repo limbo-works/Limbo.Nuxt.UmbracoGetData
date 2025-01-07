@@ -12,9 +12,9 @@ const { $umbracoClient } = useNuxtApp();
 let data = await $umbracoClient.fetchData({
 	params: {
 		cache: false,
-		parts: ['contenat'],
+		parts: ['content'],
 	},
-	route: '/sdjsdjkdshjk',
+	route: '/',
   cachingOptions: {
     maxAge: 60,
     name: 'getData',

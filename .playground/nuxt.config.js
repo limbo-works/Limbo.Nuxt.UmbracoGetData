@@ -22,5 +22,10 @@ export default defineNuxtConfig({
       },
   },
 
+  devServer: {
+    port: 8000
+  },
+  experimental: { appManifest: false },
+
  compatibilityDate: '2024-08-27',
 })
