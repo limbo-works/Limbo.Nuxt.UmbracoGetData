@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.1.2...v1.2.0) (2025-01-07)
+
+
+### Features
+
+* updated to latest nuxt ([e195375](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/e19537526127db54fa948367bc9d24832395f142))
+
 ## [1.1.2](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.1.1...v1.1.2) (2024-11-19)
 
 
