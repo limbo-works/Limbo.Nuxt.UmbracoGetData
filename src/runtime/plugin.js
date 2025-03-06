@@ -1,4 +1,4 @@
-import { defineNuxtPlugin, useRuntimeConfig, useRequestHeaders, setResponseStatus } from '#app'
+import { defineNuxtPlugin, useRuntimeConfig, useAppConfig, useRequestHeaders, setResponseStatus } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
 	const UMBRACO_GET_DATA_ENDPOINT = 'api/data';
@@ -10,6 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 	const fetchData = async (config = {}) => {
 		const environment = useRuntimeConfig();
+    const { nuxtUmbraco: appConfig = {} } = useAppConfig();
 
 		/**
 		* host handling start
@@ -41,7 +42,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 			...config.params
 		});
 
-		const data = await $fetch(
+		let data = await $fetch(
 			`/${UMBRACO_GET_DATA_ENDPOINT}?${urlSearchParams.toString()}`,
       {
         ...config?.fetchOptions || {},
@@ -51,6 +52,17 @@ export default defineNuxtPlugin((nuxtApp) => {
         },
       },
 		);
+
+    if (appConfig.dataProcessors?.length) {
+      appConfig.dataProcessors.forEach((item) => {
+        if (Array.isArray(item)) {
+          const [processor, options] = item;
+          data = runDataProcessor(data, processor, options, {});
+        } else if (typeof item === 'function') {
+          data = runDataProcessor(data, item, {}, {});
+        }
+      });
+    }
 
 		return data;
 	}
@@ -97,3 +109,23 @@ export default defineNuxtPlugin((nuxtApp) => {
 		}
 	};
 });
+
+
+function runDataProcessor(data, processor, options, meta) {
+  if (typeof processor !== 'function') {
+    return data;
+  }
+
+  options = Object.assign({
+    mode: 'once',
+  }, options);
+
+  const processedData = processor(data, options, meta);
+  if (options.mode === 'recursively' && typeof processedData === 'object') {
+    for (const key in processedData) {
+      processedData[key] = runDataProcessor(processedData[key], processor, options, meta);
+    }
+  }
+
+  return processor(data, options, meta);
+}

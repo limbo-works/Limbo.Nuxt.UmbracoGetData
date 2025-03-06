@@ -7,9 +7,10 @@ import {
 	addServerHandler
 } from '@nuxt/kit';
 export interface ModuleOptions {
-	addPlugin: boolean;
-	addApiProxy: boolean;
+  addPlugin: boolean;
+  addApiProxy: boolean;
   fetchOptions: Object;
+  dataProcessors: (Function | [Function, Object])[];
 };
 
 export default defineNuxtModule<ModuleOptions>({
@@ -25,17 +26,22 @@ export default defineNuxtModule<ModuleOptions>({
 		addPlugin: true,
 		addApiProxy: true,
     fetchOptions: null,
+    dataProcessors: [],
 	},
 
 	setup (options, nuxt) {
 		const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url));
 		const { resolve } = createResolver(import.meta.url);
+
+    // Add fetchOptions to runtimeConfig
     if (options.fetchOptions) {
       nuxt.options.runtimeConfig.nuxtUmbraco = {
         fetchOptions: options.fetchOptions,
       }
     };
 
+    // Add all options to appConfig
+    nuxt.options.appConfig.nuxtUmbraco = { ...options };
 
 		if (options.addPlugin) {
 			nuxt.options.build.transpile.push(runtimeDir);
