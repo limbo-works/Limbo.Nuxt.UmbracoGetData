@@ -1,6 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import MyModule from '..'
-import DataProcessorTest from './assets/data-processors/test'
+import TestDataProcessor from './assets/data-processors/test'
 
 export default defineNuxtConfig({
  modules: [
@@ -15,8 +15,8 @@ export default defineNuxtConfig({
     retry: 2
    },
    dataProcessors: [
-      [DataProcessorTest, { mode: 'once' }], // default mode: run once on the generic data set
-      [DataProcessorTest, { mode: 'recursively' }], // run recursively on each property
+      TestDataProcessor, // default mode: run once on the generic data set
+      [TestDataProcessor, { mode: 'recursively' }], // run recursively on each property
    ],
  },
 

@@ -54,14 +54,15 @@ export default defineNuxtPlugin((nuxtApp) => {
 		);
 
     if (appConfig.dataProcessors?.length) {
-      appConfig.dataProcessors.forEach((item) => {
+      for (const item of appConfig.dataProcessors) {
+        console.log(item);
         if (Array.isArray(item)) {
           const [processor, options] = item;
-          data = runDataProcessor(data, processor, options, {});
+          data = await runDataProcessor(data, processor, options, {});
         } else if (typeof item === 'function') {
-          data = runDataProcessor(data, item, {}, {});
+          data = await runDataProcessor(data, item, {}, {});
         }
-      });
+      }
     }
 
 		return data;
@@ -111,7 +112,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 });
 
 
-function runDataProcessor(data, processor, options, meta) {
+async function runDataProcessor(data, processor, options, meta) {
   if (typeof processor !== 'function') {
     return data;
   }
@@ -123,7 +124,7 @@ function runDataProcessor(data, processor, options, meta) {
   const processedData = processor(data, options, meta);
   if (options.mode === 'recursively' && typeof processedData === 'object') {
     for (const key in processedData) {
-      processedData[key] = runDataProcessor(processedData[key], processor, options, meta);
+      processedData[key] = await runDataProcessor(processedData[key], processor, options, meta);
     }
   }
 
