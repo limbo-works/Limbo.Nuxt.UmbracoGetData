@@ -25,6 +25,7 @@ export default defineEventHandler(async (event) => {
       headers: {
 				'content-type': reqHeaders['content-type'] || 'application/json',
         cookie: reqHeaders.cookie,
+        'Authorization': reqHeaders.authorization || '',
         'X-Api-Key': config.apiKey,
         ...(fetchOptions?.headers || {}),
 			},
