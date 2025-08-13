@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.2.0...v1.2.1) (2025-08-13)
+
+
+### Bug Fixes
+
+* passed authorization to data fetch headers ([3456fca](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/3456fcad91c6fbef48d33850e45a5c49622d7ae0))
+
 ## [1.2.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.1.2...v1.2.0) (2025-01-07)
 
 
