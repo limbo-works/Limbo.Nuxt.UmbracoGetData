@@ -21,12 +21,6 @@ Add the GitHub Package Registry to your `.npmrc` file:
 
 Install the package:
 
-**npm:**
-```bash
-npm install @limbo-works/umbraco-get-data --save-dev
-```
-
-**yarn:**
 ```bash
 yarn add @limbo-works/umbraco-get-data -D
 ```
@@ -279,7 +273,7 @@ const data = await $umbracoClient.fetchData({
 
 ```bash
 # Install dependencies
-npm install
+yarn
 
 # Prepare development environment
 npm run dev:prepare
@@ -303,13 +297,7 @@ src/
             └── data.js # Server-side API proxy
 ```
 
-## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## License
 
