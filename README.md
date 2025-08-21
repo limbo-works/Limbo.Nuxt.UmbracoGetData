@@ -14,11 +14,6 @@ A Nuxt 3 module that provides seamless integration with Umbraco's SPA API, enabl
 
 ## Installation
 
-Add the GitHub Package Registry to your `.npmrc` file:
-```
-@limbo-works:registry=https://npm.pkg.github.com
-```
-
 Install the package:
 
 ```bash
@@ -276,13 +271,13 @@ const data = await $umbracoClient.fetchData({
 yarn
 
 # Prepare development environment
-npm run dev:prepare
+yarn dev:prepare
 
 # Start development server with playground
-npm run dev
+yarn dev
 
 # Build the module
-npm run prepack
+yarn prepack
 ```
 
 ### Project Structure
