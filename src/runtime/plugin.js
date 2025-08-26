@@ -1,4 +1,4 @@
-import { defineNuxtPlugin, useRuntimeConfig, useRequestHeaders, setResponseStatus } from '#app'
+import { defineNuxtPlugin, useRuntimeConfig, useAppConfig, useRequestHeaders, setResponseStatus } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
 	const UMBRACO_GET_DATA_ENDPOINT = 'api/data';
@@ -10,7 +10,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 	const fetchData = async (config = {}) => {
 		const environment = useRuntimeConfig();
-		const isDebug = environment.nuxtUmbraco?.debug;
+		const appConfig = useAppConfig();
+		const isDebug = appConfig.nuxtUmbraco?.debug;
 
 		/**
 		* host handling start
@@ -71,8 +72,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 	}
 
 	const processData = (data = {}) => {
-		const environment = useRuntimeConfig();
-		const isDebug = environment.nuxtUmbraco?.debug;
+		const appConfig = useAppConfig();
+		const isDebug = appConfig.nuxtUmbraco?.debug;
 
 		if (isDebug) {
 			console.log('[Umbraco Get Data] processData input:', data);

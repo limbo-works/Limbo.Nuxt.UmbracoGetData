@@ -33,7 +33,7 @@ export default defineNuxtModule<ModuleOptions>({
 		const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url));
 		const { resolve } = createResolver(import.meta.url);
     if (options.fetchOptions || options.debug) {
-      nuxt.options.runtimeConfig.nuxtUmbraco = {
+      nuxt.options.appConfig.nuxtUmbraco = {
         fetchOptions: options.fetchOptions,
         debug: options.debug,
       }

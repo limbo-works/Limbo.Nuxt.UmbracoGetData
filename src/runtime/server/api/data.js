@@ -3,7 +3,8 @@ import { useRuntimeConfig } from '#nitro';
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
-  const isDebug = config.nuxtUmbraco?.debug;
+  const appConfig = config.app || {};
+  const isDebug = appConfig.nuxtUmbraco?.debug;
   const { headers: reqHeaders = {}, method, url } = event.node.req || {};
 	const target = new URL(
 		url.replace(/^\/api\/data/, config.getdataEndpointUrl || '/umbraco/api/spa/getdata/'),
@@ -29,7 +30,7 @@ export default defineEventHandler(async (event) => {
 			? await readBody(event)
 			: undefined;
 
-      const fetchOptions = config.nuxtUmbraco?.fetchOptions || {};
+      const fetchOptions = appConfig.nuxtUmbraco?.fetchOptions || {};
 	try {
 		const response = await $fetch.raw(target.toString(), {
 			method,
