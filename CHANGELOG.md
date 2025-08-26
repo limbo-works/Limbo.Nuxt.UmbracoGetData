@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.2.1...v2.0.0) (2025-08-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* added debug and moved to use appConfig
+
+### Features
+
+* added debug and moved to use appConfig ([c0cacbe](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/c0cacbe92f069a8e3b0a87a5d4ec65f9326291b4))
+
+
+### Bug Fixes
+
+* run with debug ([7c65436](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/7c6543649a9a70555b11cf605289090da4995861))
+
 ## [1.2.1](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.2.0...v1.2.1) (2025-08-13)
 
 
