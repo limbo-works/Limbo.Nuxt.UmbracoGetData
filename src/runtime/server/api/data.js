@@ -3,11 +3,25 @@ import { useRuntimeConfig } from '#nitro';
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
+  const isDebug = config.nuxtUmbraco?.debug;
   const { headers: reqHeaders = {}, method, url } = event.node.req || {};
 	const target = new URL(
 		url.replace(/^\/api\/data/, config.getdataEndpointUrl || '/umbraco/api/spa/getdata/'),
 		config.public.apiDomain
 	);
+
+	if (isDebug) {
+		console.log('[Umbraco Get Data] Server API request:', {
+			method,
+			originalUrl: url,
+			targetUrl: target.toString(),
+			headers: {
+				'content-type': reqHeaders['content-type'],
+				cookie: reqHeaders.cookie ? '[REDACTED]' : undefined,
+				authorization: reqHeaders.authorization ? '[REDACTED]' : undefined
+			}
+		});
+	}
 
 
 	const body =
@@ -31,6 +45,14 @@ export default defineEventHandler(async (event) => {
 			},
 		});
 
+		if (isDebug) {
+			console.log('[Umbraco Get Data] Server API response:', {
+				status: response.status,
+				headers: Object.fromEntries(response.headers.entries()),
+				dataSize: response._data ? JSON.stringify(response._data).length : 0
+			});
+		}
+
 		for (const header of ['set-cookie', 'cache-control']) {
 			if (response.headers.has(header)) {
 				appendHeader(event, header, response.headers.get(header));
@@ -39,6 +61,13 @@ export default defineEventHandler(async (event) => {
 
 		return response._data;
 	} catch (error) {
+		if (isDebug) {
+			console.error('[Umbraco Get Data] Server API error:', {
+				status: error.response?.status,
+				message: error.message,
+				data: error.data
+			});
+		}
 		return createError({
 			statusCode: error.response?.status || 500,
 			statusMessage: error.message,

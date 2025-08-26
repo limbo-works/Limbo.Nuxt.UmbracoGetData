@@ -75,6 +75,9 @@ export default defineNuxtConfig({
     // Enable/disable the API proxy (default: true)  
     addApiProxy: true,
     
+    // Enable debug logging of data flow (default: false)
+    debug: true,
+    
     // Custom fetch options passed to all requests
     fetchOptions: {
       timeout: 5000,
@@ -231,6 +234,25 @@ const data = await $umbracoClient.fetchData({
 });
 ```
 
+### Debug Logging
+
+Enable debug logging to see what data is flowing through the module:
+
+```javascript
+// Enable debug logging in configuration
+export default defineNuxtConfig({
+  nuxtUmbraco: {
+    debug: true
+  }
+});
+```
+
+When debug mode is enabled, the module will log:
+- **Client-side**: Request parameters, response data, and processed data
+- **Server-side**: Incoming requests, target URLs, backend responses, and errors
+
+Debug logs are prefixed with `[Umbraco Get Data]` for easy identification. Sensitive data like cookies and authorization headers are redacted in server-side logs.
+
 ## Module Options
 
 | Option | Type | Default | Description |
@@ -238,6 +260,7 @@ const data = await $umbracoClient.fetchData({
 | `addPlugin` | boolean | `true` | Adds the `$umbracoClient` plugin |
 | `addApiProxy` | boolean | `true` | Adds the `/api/data` server handler |
 | `fetchOptions` | Object | `null` | Default fetch options for all requests |
+| `debug` | boolean | `false` | Enables debug logging of data flow through the module |
 
 ## Runtime Config
 
