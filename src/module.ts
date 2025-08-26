@@ -10,6 +10,7 @@ export interface ModuleOptions {
 	addPlugin: boolean;
 	addApiProxy: boolean;
   fetchOptions: Object;
+  debug: boolean;
 };
 
 export default defineNuxtModule<ModuleOptions>({
@@ -25,14 +26,16 @@ export default defineNuxtModule<ModuleOptions>({
 		addPlugin: true,
 		addApiProxy: true,
     fetchOptions: null,
+    debug: false,
 	},
 
 	setup (options, nuxt) {
 		const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url));
 		const { resolve } = createResolver(import.meta.url);
-    if (options.fetchOptions) {
-      nuxt.options.runtimeConfig.nuxtUmbraco = {
+    if (options.fetchOptions || options.debug) {
+      nuxt.options.appConfig.nuxtUmbraco = {
         fetchOptions: options.fetchOptions,
+        debug: options.debug,
       }
     };
 

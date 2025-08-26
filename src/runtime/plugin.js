@@ -1,4 +1,4 @@
-import { defineNuxtPlugin, useRuntimeConfig, useRequestHeaders, setResponseStatus } from '#app'
+import { defineNuxtPlugin, useRuntimeConfig, useAppConfig, useRequestHeaders, setResponseStatus } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
 	const UMBRACO_GET_DATA_ENDPOINT = 'api/data';
@@ -10,6 +10,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 	const fetchData = async (config = {}) => {
 		const environment = useRuntimeConfig();
+		const appConfig = useAppConfig();
+		const isDebug = appConfig.nuxtUmbraco?.debug;
 
 		/**
 		* host handling start
@@ -41,6 +43,16 @@ export default defineNuxtPlugin((nuxtApp) => {
 			...config.params
 		});
 
+		if (isDebug) {
+			console.log('[Umbraco Get Data] fetchData request:', {
+				route: config.route,
+				params: config.params,
+				appHost,
+				navContext: import.meta.server,
+				fetchOptions: config?.fetchOptions
+			});
+		}
+
 		const data = await $fetch(
 			`/${UMBRACO_GET_DATA_ENDPOINT}?${urlSearchParams.toString()}`,
       {
@@ -52,10 +64,20 @@ export default defineNuxtPlugin((nuxtApp) => {
       },
 		);
 
+		if (isDebug) {
+			console.log('[Umbraco Get Data] fetchData response:', data);
+		}
+
 		return data;
 	}
 
 	const processData = (data = {}) => {
+		const appConfig = useAppConfig();
+		const isDebug = appConfig.nuxtUmbraco?.debug;
+
+		if (isDebug) {
+			console.log('[Umbraco Get Data] processData input:', data);
+		}
 		if (data.meta?.code) {
 			// Overwrite the response code (does nothing client side)
 			setResponseStatus(data.meta.code);
@@ -80,6 +102,10 @@ export default defineNuxtPlugin((nuxtApp) => {
 				default:
 					break;
 			}
+		}
+
+		if (isDebug) {
+			console.log('[Umbraco Get Data] processData output:', data);
 		}
 
 		return data;

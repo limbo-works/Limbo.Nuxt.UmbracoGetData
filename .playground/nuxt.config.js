@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     timeout: 5000,
     retry: 2
    },
+   debug: true,
  },
 
  runtimeConfig: {
