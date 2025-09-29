@@ -53,6 +53,32 @@ export default defineNuxtPlugin((nuxtApp) => {
 			});
 		}
 
+    // Test route handling
+    const testRouteKeys = Object.keys(appConfig.nuxtUmbraco?.testRoutes || {});
+    if (testRouteKeys.length) {
+      // Sort keys by length descending to prioritize longer (more specific) matches
+      testRouteKeys.sort((a, b) => b.length - a.length);
+
+      for (const key of testRouteKeys) {
+        // Check if the keys are the exact same as the route
+        if (key === config.route) {
+          if (isDebug) {
+            console.log(`[Umbraco Get Data] fetchData using test route for key: ${key}`);
+          }
+          return appConfig.nuxtUmbraco.testRoutes[key];
+        }
+
+        // If the test route has no query params, check if the config.route is at least the same path
+        if (!key.includes('?') && config.route.split('?')[0] === key) {
+          if (isDebug) {
+            console.log(`[Umbraco Get Data] fetchData using test route for key: ${key}`);
+          }
+          return appConfig.nuxtUmbraco.testRoutes[key];
+        }
+      }
+    }
+
+    // Actual data fetching
 		const data = await $fetch(
 			`/${UMBRACO_GET_DATA_ENDPOINT}?${urlSearchParams.toString()}`,
       {

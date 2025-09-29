@@ -20,7 +20,7 @@ let data = await $umbracoClient.fetchData({
     name: 'getData',
     getKey: ({ route }) => {
       console.log(route);
-      return route;
+      return '/';
     },
   },
 });

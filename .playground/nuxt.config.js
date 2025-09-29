@@ -13,6 +13,9 @@ export default defineNuxtConfig({
     timeout: 5000,
     retry: 2
    },
+   testRoutes: {
+    '/test-route': (await import('./assets/js/test-routes/test-route.js')).default,
+   },
  },
 
  runtimeConfig: {
