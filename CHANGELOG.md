@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v2.0.0...v2.1.0) (2025-09-29)
+
+
+### Features
+
+* added test route functionality ([2995a88](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/2995a88ac5546207dea640aacd1d3dc8dbbf1fdf))
+* let's call it route data instead ([fa69e51](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/fa69e510ec49d5eb45c5dd8ed63f00e4e59c92fb))
+
 ## [2.0.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v1.2.1...v2.0.0) (2025-08-26)
 
 
