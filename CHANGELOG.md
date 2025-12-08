@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v2.1.0...v2.2.0) (2025-12-08)
+
+
+### Features
+
+* forward ip ([780cd99](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/780cd99509f8d772d2523378aa0e9be1dd805e21))
+
 ## [2.1.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v2.0.0...v2.1.0) (2025-09-29)
 
 
