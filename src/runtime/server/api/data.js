@@ -42,6 +42,7 @@ export default defineEventHandler(async (event) => {
         cookie: reqHeaders.cookie,
         'Authorization': reqHeaders.authorization || '',
         'X-Api-Key': config.apiKey,
+		    'X-Forwarded-For': reqHeaders['X-Forwarded-For'] || reqHeaders['x-forwarded-for'],
         ...(fetchOptions?.headers || {}),
 			},
 		});
