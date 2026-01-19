@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.1](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v2.2.0...v2.2.1) (2026-01-19)
+
+
+### Bug Fixes
+
+* minor cleanup to avoid memory leaks ([cd20be2](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/cd20be2958d0c8160e8f20f2602d79f7f28c56da))
+* some improved data handling ([85ad46d](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/85ad46d5059ccabeeea6b676377312597fbc54e2))
+
 ## [2.2.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v2.1.0...v2.2.0) (2025-12-08)
 
 
