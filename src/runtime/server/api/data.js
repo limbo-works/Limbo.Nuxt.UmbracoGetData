@@ -31,8 +31,9 @@ export default defineEventHandler(async (event) => {
 			: undefined;
 
       const fetchOptions = appConfig.nuxtUmbraco?.fetchOptions || {};
+	let response;
 	try {
-		const response = await $fetch.raw(target.toString(), {
+		response = await $fetch.raw(target.toString(), {
 			method,
 			body,
       ...fetchOptions,
@@ -50,8 +51,8 @@ export default defineEventHandler(async (event) => {
 		if (isDebug) {
 			console.log('[Umbraco Get Data] Server API response:', {
 				status: response.status,
-				headers: Object.fromEntries(response.headers.entries()),
-				dataSize: response._data ? JSON.stringify(response._data).length : 0
+				headerCount: response.headers ? Array.from(response.headers.keys()).length : 0,
+				dataSize: response._data ? JSON.stringify(response._data).length + ' bytes' : '0 bytes'
 			});
 		}
 

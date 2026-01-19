@@ -46,10 +46,10 @@ export default defineNuxtPlugin((nuxtApp) => {
 		if (isDebug) {
 			console.log('[Umbraco Get Data] fetchData request:', {
 				route: config.route,
-				params: config.params,
+				params: config.params ? Object.keys(config.params).length + ' params' : 'no params',
 				appHost,
 				navContext: import.meta.server,
-				fetchOptions: config?.fetchOptions
+				fetchOptions: config?.fetchOptions ? 'custom options provided' : 'default options'
 			});
 		}
 
@@ -91,7 +91,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 		);
 
 		if (isDebug) {
-			console.log('[Umbraco Get Data] fetchData response:', data);
+			console.log('[Umbraco Get Data] fetchData response size:',
+				data ? JSON.stringify(data).length + ' bytes' : '0 bytes');
 		}
 
 		return data;
@@ -102,7 +103,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 		const isDebug = appConfig.nuxtUmbraco?.debug;
 
 		if (isDebug) {
-			console.log('[Umbraco Get Data] processData input:', data);
+			console.log('[Umbraco Get Data] processData input size:',
+				data ? JSON.stringify(data).length + ' bytes' : '0 bytes');
 		}
 		if (data.meta?.code) {
 			// Overwrite the response code (does nothing client side)
@@ -131,7 +133,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 		}
 
 		if (isDebug) {
-			console.log('[Umbraco Get Data] processData output:', data);
+			console.log('[Umbraco Get Data] processData completed successfully');
 		}
 
 		return data;
