@@ -8,6 +8,12 @@ export default defineNuxtPlugin((nuxtApp) => {
 	//   const I_AM_A_TEAPOT_STATUS_CODE = 418
 	//   const INTERNAL_SERVER_ERROR_STATUS_CODE = 500
 
+	// Cache hostname on client-side to prevent repeated URL object creation
+	let cachedHostname;
+	if (import.meta.client) {
+		cachedHostname = new URL(window.location.href).hostname;
+	}
+
 	const fetchData = async (config = {}) => {
 		const environment = useRuntimeConfig();
 		const appConfig = useAppConfig();
@@ -25,8 +31,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 		}
 
 		if (import.meta.client) {
-			const { hostname } = new URL(window.location.href);
-			appHost = hostname;
+			appHost = cachedHostname;
 		}
 
 		appHost = environment.public.appHost || appHost;
@@ -53,8 +58,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 			});
 		}
 
-    // Test route handling
-    const routeDataKeys = Object.keys(appConfig.nuxtUmbraco?.routeData || {});
+    // Test route handling with caching
+    const routeData = appConfig.nuxtUmbraco?.routeData || {};
+    const routeDataKeys = Object.keys(routeData);
     if (routeDataKeys.length) {
       // Sort keys by length descending to prioritize longer (more specific) matches
       routeDataKeys.sort((a, b) => b.length - a.length);
@@ -65,7 +71,7 @@ export default defineNuxtPlugin((nuxtApp) => {
           if (isDebug) {
             console.log(`[Umbraco Get Data] fetchData using test route for key: ${key}`);
           }
-          return appConfig.nuxtUmbraco.routeData[key];
+          return routeData[key];
         }
 
         // If the test route has no query params, check if the config.route is at least the same path
@@ -73,7 +79,7 @@ export default defineNuxtPlugin((nuxtApp) => {
           if (isDebug) {
             console.log(`[Umbraco Get Data] fetchData using test route for key: ${key}`);
           }
-          return appConfig.nuxtUmbraco.routeData[key];
+          return routeData[key];
         }
       }
     }
@@ -91,8 +97,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 		);
 
 		if (isDebug) {
-			console.log('[Umbraco Get Data] fetchData response size:',
-				data ? JSON.stringify(data).length + ' bytes' : '0 bytes');
+			const dataSize = data ? (typeof data === 'string' ? data.length : Object.keys(data).length + ' properties') : '0';
+			console.log('[Umbraco Get Data] fetchData response size:', dataSize);
 		}
 
 		return data;
@@ -103,8 +109,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 		const isDebug = appConfig.nuxtUmbraco?.debug;
 
 		if (isDebug) {
-			console.log('[Umbraco Get Data] processData input size:',
-				data ? JSON.stringify(data).length + ' bytes' : '0 bytes');
+			const dataSize = data ? (typeof data === 'string' ? data.length : Object.keys(data).length + ' properties') : '0';
+			console.log('[Umbraco Get Data] processData input size:', dataSize);
 		}
 		if (data.meta?.code) {
 			// Overwrite the response code (does nothing client side)
