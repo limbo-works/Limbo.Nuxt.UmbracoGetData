@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v3.0.0...v3.0.1) (2026-03-27)
+
+
+### Bug Fixes
+
+* newer node version ([11cba10](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/11cba1076b82537fb05e6047ca99190d609303c4))
+
 ## [3.0.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v2.2.1...v3.0.0) (2026-03-27)
 
 
