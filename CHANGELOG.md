@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v2.2.1...v3.0.0) (2026-03-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* make package Nuxt 4 ready
+
+### Features
+
+* make package Nuxt 4 ready ([93b3854](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/93b38542e83fb405d3841a0d0353ae0176d50a2f))
+
 ## [2.2.1](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/v2.2.0...v2.2.1) (2026-01-19)
 
 
