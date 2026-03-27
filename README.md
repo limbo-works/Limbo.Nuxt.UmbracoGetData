@@ -1,6 +1,6 @@
 # @limbo-works/umbraco-get-data
 
-A Nuxt 3 module that provides seamless integration with Umbraco's SPA API, enabling easy data fetching and server-side rendering with Umbraco CMS.
+A Nuxt module (Nuxt 3 and Nuxt 4 compatible) that provides seamless integration with Umbraco's SPA API, enabling easy data fetching and server-side rendering with Umbraco CMS.
 
 ## Features
 
@@ -56,6 +56,28 @@ const { data } = await $umbracoClient.fetchData({
 // Process the data (handles redirects, status codes, etc.)
 const processedData = $umbracoClient.processData(data);
 </script>
+```
+
+### Nuxt 4 Quick Start
+
+For Nuxt 4, you can use the same module configuration in `nuxt.config.ts`:
+
+```ts
+export default defineNuxtConfig({
+  modules: ['@limbo-works/umbraco-get-data'],
+  nuxtUmbraco: {
+    addPlugin: true,
+    addApiProxy: true,
+    debug: false
+  },
+  runtimeConfig: {
+    apiKey: process.env.UMBRACO_API_KEY,
+    getdataEndpointUrl: '/umbraco/api/spa/getdata/',
+    public: {
+      apiDomain: 'https://your-umbraco-backend.com'
+    }
+  }
+});
 ```
 
 ## Configuration

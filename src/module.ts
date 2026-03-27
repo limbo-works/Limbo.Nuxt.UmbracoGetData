@@ -19,7 +19,7 @@ export default defineNuxtModule<ModuleOptions>({
 		name: 'nuxt-umbraco',
 		configKey: 'nuxtUmbraco',
 		compatibility: {
-			nuxt: '^3.0.0'
+			nuxt: '^3.0.0 || ^4.0.0'
 		}
 	},
 
