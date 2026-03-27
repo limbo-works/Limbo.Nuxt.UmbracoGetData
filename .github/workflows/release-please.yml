@@ -20,23 +20,24 @@ jobs:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   release-type: node
             # The logic below handles the package building:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
               if: ${{ steps.release.outputs.release_created }}
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v6
               with:
                   node-version: 22.13
                   registry-url: 'https://npm.pkg.github.com'
               if: ${{ steps.release.outputs.release_created }}
-            - run: npm install
+            - uses: actions/setup-node@v6
+              with:
+                  cache: yarn
+              if: ${{ steps.release.outputs.release_created }}
+            - run: yarn install
               env:
                   NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
               if: ${{ steps.release.outputs.release_created }}
-            - run: npm ci
+            - run: yarn test
               if: ${{ steps.release.outputs.release_created }}
-            - run: npm test
-              if: ${{ steps.release.outputs.release_created }}
-            # The logic below handles the package building:
-            - run: npm ci
+            - run: yarn prepack
               if: ${{ steps.release.outputs.release_created }}
             - run: npm publish
               env:
