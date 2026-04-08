@@ -2,12 +2,15 @@ import { defineEventHandler, readBody, appendHeader, createError } from 'h3';
 import { useRuntimeConfig } from '#nitro';
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig();
-  const appConfig = config.app || {};
-  const isDebug = appConfig.nuxtUmbraco?.debug;
-  const { headers: reqHeaders = {}, method, url } = event.node.req || {};
+	const config = useRuntimeConfig();
+	const appConfig = config.app || {};
+	const isDebug = appConfig.nuxtUmbraco?.debug;
+	const { headers: reqHeaders = {}, method, url } = event.node.req || {};
 	const target = new URL(
-		url.replace(/^\/api\/data/, config.getdataEndpointUrl || '/umbraco/api/spa/getdata/'),
+		url.replace(
+			/^\/api\/data/,
+			config.getdataEndpointUrl || '/umbraco/api/spa/getdata/'
+		),
 		config.public.apiDomain
 	);
 
@@ -19,40 +22,48 @@ export default defineEventHandler(async (event) => {
 			headers: {
 				'content-type': reqHeaders['content-type'],
 				cookie: reqHeaders.cookie ? '[REDACTED]' : undefined,
-				authorization: reqHeaders.authorization ? '[REDACTED]' : undefined
-			}
+				authorization: reqHeaders.authorization
+					? '[REDACTED]'
+					: undefined,
+			},
 		});
 	}
-
 
 	const body =
 		method !== 'GET' && method !== 'HEAD'
 			? await readBody(event)
 			: undefined;
 
-      const fetchOptions = appConfig.nuxtUmbraco?.fetchOptions || {};
+	const fetchOptions = appConfig.nuxtUmbraco?.fetchOptions || {};
 	let response;
 	try {
 		response = await $fetch.raw(target.toString(), {
 			method,
 			body,
-      ...fetchOptions,
+			...fetchOptions,
 
-      headers: {
-				'content-type': reqHeaders['content-type'] || 'application/json',
-        cookie: reqHeaders.cookie,
-        'Authorization': reqHeaders.authorization || '',
-        'X-Api-Key': config.apiKey,
-		    'X-Forwarded-For': reqHeaders['X-Forwarded-For'] || reqHeaders['x-forwarded-for'],
-        ...(fetchOptions?.headers || {}),
+			headers: {
+				'content-type':
+					reqHeaders['content-type'] || 'application/json',
+				cookie: reqHeaders.cookie,
+				Authorization: reqHeaders.authorization || '',
+				'X-Api-Key': config.apiKey,
+				'X-Forwarded-For':
+					reqHeaders['X-Forwarded-For'] ||
+					reqHeaders['x-forwarded-for'],
+				...(fetchOptions?.headers || {}),
 			},
 		});
 
 		if (isDebug) {
 			console.log('[Umbraco Get Data] Server API response:', {
 				status: response.status,
-				headerCount: response.headers ? Array.from(response.headers.keys()).length : 0,
-				dataSize: response._data ? JSON.stringify(response._data).length + ' bytes' : '0 bytes'
+				headerCount: response.headers
+					? Array.from(response.headers.keys()).length
+					: 0,
+				dataSize: response._data
+					? JSON.stringify(response._data).length + ' bytes'
+					: '0 bytes',
 			});
 		}
 
@@ -68,7 +79,7 @@ export default defineEventHandler(async (event) => {
 			console.error('[Umbraco Get Data] Server API error:', {
 				status: error.response?.status,
 				message: error.message,
-				data: error.data
+				data: error.data,
 			});
 		}
 		return createError({
@@ -77,5 +88,4 @@ export default defineEventHandler(async (event) => {
 			data: error.data,
 		});
 	}
-
 });

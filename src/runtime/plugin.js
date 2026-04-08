@@ -1,4 +1,10 @@
-import { defineNuxtPlugin, useRuntimeConfig, useAppConfig, useRequestHeaders, setResponseStatus } from '#app'
+import {
+	defineNuxtPlugin,
+	useRuntimeConfig,
+	useAppConfig,
+	useRequestHeaders,
+	setResponseStatus,
+} from '#app';
 
 export default defineNuxtPlugin((nuxtApp) => {
 	const UMBRACO_GET_DATA_ENDPOINT = 'api/data';
@@ -20,9 +26,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 		const isDebug = appConfig.nuxtUmbraco?.debug;
 
 		/**
-		* host handling start
-		*
-		*/
+		 * host handling start
+		 *
+		 */
 		const headers = useRequestHeaders();
 		let appHost = '';
 
@@ -37,79 +43,98 @@ export default defineNuxtPlugin((nuxtApp) => {
 		appHost = environment.public.appHost || appHost;
 
 		/**
-		* host handling end
-		*/
+		 * host handling end
+		 */
 
 		const urlSearchParams = new URLSearchParams({
 			appHost,
 			navContext: import.meta.server,
 			navLevels: 2,
 			url: decodeURI(config.route),
-			...config.params
+			...config.params,
 		});
 
 		if (isDebug) {
 			console.log('[Umbraco Get Data] fetchData request:', {
 				route: config.route,
-				params: config.params ? Object.keys(config.params).length + ' params' : 'no params',
+				params: config.params
+					? Object.keys(config.params).length + ' params'
+					: 'no params',
 				appHost,
 				navContext: import.meta.server,
-				fetchOptions: config?.fetchOptions ? 'custom options provided' : 'default options'
+				fetchOptions: config?.fetchOptions
+					? 'custom options provided'
+					: 'default options',
 			});
 		}
 
-    // Test route handling with caching
-    const routeData = appConfig.nuxtUmbraco?.routeData || {};
-    const routeDataKeys = Object.keys(routeData);
-    if (routeDataKeys.length) {
-      // Sort keys by length descending to prioritize longer (more specific) matches
-      routeDataKeys.sort((a, b) => b.length - a.length);
+		// Test route handling with caching
+		const routeData = appConfig.nuxtUmbraco?.routeData || {};
+		const routeDataKeys = Object.keys(routeData);
+		if (routeDataKeys.length) {
+			// Sort keys by length descending to prioritize longer (more specific) matches
+			routeDataKeys.sort((a, b) => b.length - a.length);
 
-      for (const key of routeDataKeys) {
-        // Check if the keys are the exact same as the route
-        if (key === config.route) {
-          if (isDebug) {
-            console.log(`[Umbraco Get Data] fetchData using test route for key: ${key}`);
-          }
-          return routeData[key];
-        }
+			for (const key of routeDataKeys) {
+				// Check if the keys are the exact same as the route
+				if (key === config.route) {
+					if (isDebug) {
+						console.log(
+							`[Umbraco Get Data] fetchData using test route for key: ${key}`
+						);
+					}
+					return routeData[key];
+				}
 
-        // If the test route has no query params, check if the config.route is at least the same path
-        if (!key.includes('?') && config.route.split('?')[0] === key) {
-          if (isDebug) {
-            console.log(`[Umbraco Get Data] fetchData using test route for key: ${key}`);
-          }
-          return routeData[key];
-        }
-      }
-    }
+				// If the test route has no query params, check if the config.route is at least the same path
+				if (!key.includes('?') && config.route.split('?')[0] === key) {
+					if (isDebug) {
+						console.log(
+							`[Umbraco Get Data] fetchData using test route for key: ${key}`
+						);
+					}
+					return routeData[key];
+				}
+			}
+		}
 
-    // Actual data fetching
+		// Actual data fetching
 		const data = await $fetch(
 			`/${UMBRACO_GET_DATA_ENDPOINT}?${urlSearchParams.toString()}`,
-      {
-        ...config?.fetchOptions || {},
-        headers: {
-          cookie: headers.cookie,
-          ...config?.fetchOptions?.headers || {},
-        },
-      },
+			{
+				...(config?.fetchOptions || {}),
+				headers: {
+					cookie: headers.cookie,
+					...(config?.fetchOptions?.headers || {}),
+				},
+			}
 		);
 
 		if (isDebug) {
-			const dataSize = data ? (typeof data === 'string' ? data.length : Object.keys(data).length + ' properties') : '0';
-			console.log('[Umbraco Get Data] fetchData response size:', dataSize);
+			const dataSize = data
+				? typeof data === 'string'
+					? data.length
+					: Object.keys(data).length + ' properties'
+				: '0';
+			console.log(
+				'[Umbraco Get Data] fetchData response size:',
+				dataSize
+			);
 		}
 
 		return data;
-	}
+	};
 
 	const processData = (data = {}) => {
 		const appConfig = useAppConfig();
 		const isDebug = appConfig.nuxtUmbraco?.debug;
 
 		if (isDebug) {
-			const dataSize = data ? (typeof data === 'string' ? data.length : Object.keys(data).length + ' properties') : '0';
+			const dataSize = data
+				? typeof data === 'string'
+					? data.length
+					: Object.keys(data).length + ' properties'
+				: '0';
 			console.log('[Umbraco Get Data] processData input size:', dataSize);
 		}
 		if (data.meta?.code) {
@@ -118,42 +143,44 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 			// Special handlings
 			switch (data.meta.code) {
-				case 301:
-					if (nuxtApp.ssrContext) {
-						const { res } = nuxtApp.ssrContext;
+			case 301:
+				if (nuxtApp.ssrContext) {
+					const { res } = nuxtApp.ssrContext;
 
-						if (data.meta.redirect) {
-							res.writeHead(301, {
-								Location: data.meta.redirect
-							});
-							res.end();
-						}
-					} else if (data.meta.redirect) {
-						window.location.replace(data.meta.redirect);
+					if (data.meta.redirect) {
+						res.writeHead(301, {
+							Location: data.meta.redirect,
+						});
+						res.end();
 					}
-					break;
+				} else if (data.meta.redirect) {
+					window.location.replace(data.meta.redirect);
+				}
+				break;
 
-				default:
-					break;
+			default:
+				break;
 			}
 		}
 
 		if (isDebug) {
-			console.log('[Umbraco Get Data] processData completed successfully');
+			console.log(
+				'[Umbraco Get Data] processData completed successfully'
+			);
 		}
 
 		return data;
-	}
+	};
 
 	// Make an $umbracoClient object available with our methods
 	const umbracoClient = {
 		fetchData,
-		processData
+		processData,
 	};
 
 	return {
 		provide: {
-			umbracoClient
-		}
+			umbracoClient,
+		},
 	};
 });

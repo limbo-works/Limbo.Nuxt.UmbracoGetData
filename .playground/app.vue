@@ -1,8 +1,8 @@
 <template>
-  <div>
-    Nuxt module playground!
-    {{ data }}
-  </div>
+	<div>
+		Nuxt module playground!
+		{{ data }}
+	</div>
 </template>
 
 <script setup>
@@ -15,18 +15,18 @@ let data = await $umbracoClient.fetchData({
 		parts: ['content'],
 	},
 	route: '/',
-  cachingOptions: {
-    maxAge: 60,
-    name: 'getData',
-    getKey: ({ route }) => {
-      console.log(route);
-      return '/';
-    },
-  },
+	cachingOptions: {
+		maxAge: 60,
+		name: 'getData',
+		getKey: ({ route }) => {
+			console.log(route);
+			return '/';
+		},
+	},
 });
 
 if (!data || data.meta.code === 404) {
-  throw createError({
+	throw createError({
 		statusCode: 404,
 		statusMessage: 'Page Not Found',
 		fatal: true,

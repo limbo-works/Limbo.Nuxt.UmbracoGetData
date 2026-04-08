@@ -1,9 +1,5 @@
 <template>
-  <div>
-   Error
-  </div>
+	<div>Error</div>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
