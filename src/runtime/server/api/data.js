@@ -1,9 +1,9 @@
 import { defineEventHandler, readBody, appendHeader, createError } from 'h3';
-import { useRuntimeConfig } from '#nitro';
+import { useRuntimeConfig, useAppConfig } from '#nitro';
 
 export default defineEventHandler(async (event) => {
 	const config = useRuntimeConfig();
-	const appConfig = config.app || {};
+	const appConfig = useAppConfig();
 	const isDebug = appConfig.nuxtUmbraco?.debug;
 	const { headers: reqHeaders = {}, method, url } = event.node.req || {};
 	const target = new URL(

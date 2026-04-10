@@ -9,7 +9,9 @@ import {
 export interface ModuleOptions {
 	addPlugin: boolean;
 	addApiProxy: boolean;
-	fetchOptions: Object;
+	fetchOptions: Object | null;
+
+	// For testing
 	debug: boolean;
 	routeData: Record<string, any>;
 }
@@ -27,6 +29,8 @@ export default defineNuxtModule<ModuleOptions>({
 		addPlugin: true,
 		addApiProxy: true,
 		fetchOptions: null,
+
+		// For testing
 		debug: false,
 		routeData: {},
 	},

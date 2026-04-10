@@ -137,29 +137,25 @@ export default defineNuxtPlugin((nuxtApp) => {
 				: '0';
 			console.log('[Umbraco Get Data] processData input size:', dataSize);
 		}
-		if (data.meta?.code) {
+		if (data?.meta?.code) {
 			// Overwrite the response code (does nothing client side)
 			setResponseStatus(data.meta.code);
 
-			// Special handlings
-			switch (data.meta.code) {
-			case 301:
+			if (data.meta.code >= 300 && data.meta.code < 400) {
+				const redirectUrl = data?.data?.url ?? data.meta?.redirect;
+
 				if (nuxtApp.ssrContext) {
 					const { res } = nuxtApp.ssrContext;
 
 					if (data.meta.redirect) {
 						res.writeHead(301, {
-							Location: data.meta.redirect,
+							Location: redirectUrl,
 						});
 						res.end();
 					}
-				} else if (data.meta.redirect) {
-					window.location.replace(data.meta.redirect);
+				} else if (redirectUrl) {
+					window.location.replace(redirectUrl);
 				}
-				break;
-
-			default:
-				break;
 			}
 		}
 

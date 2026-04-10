@@ -25,7 +25,7 @@ let data = await $umbracoClient.fetchData({
 	},
 });
 
-if (!data || data.meta.code === 404) {
+if (!data || data?.meta?.code === 404) {
 	throw createError({
 		statusCode: 404,
 		statusMessage: 'Page Not Found',
