@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
 			targetUrl: target.toString(),
 			headers: {
 				'content-type': reqHeaders['content-type'],
+				'user-agent': reqHeaders['user-agent'],
 				cookie: reqHeaders.cookie ? '[REDACTED]' : undefined,
 				authorization: reqHeaders.authorization
 					? '[REDACTED]'
@@ -47,6 +48,7 @@ export default defineEventHandler(async (event) => {
 					reqHeaders['content-type'] || 'application/json',
 				cookie: reqHeaders.cookie,
 				Authorization: reqHeaders.authorization || '',
+				'User-Agent': reqHeaders['user-agent'],
 				'X-Api-Key': config.apiKey,
 				'X-Forwarded-For':
 					reqHeaders['X-Forwarded-For'] ||
