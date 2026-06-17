@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/umbraco-get-data-v3.1.0...umbraco-get-data-v3.2.0) (2026-06-17)
+
+
+### Features
+
+* forward user agent ([4fa938b](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/commit/4fa938b5cfe06c25da2c819ab04d448a3f706c52))
+
 ## [3.1.0](https://github.com/limbo-works/Limbo.Nuxt.UmbracoGetData/compare/umbraco-get-data-v3.0.6...umbraco-get-data-v3.1.0) (2026-04-10)
 
 
